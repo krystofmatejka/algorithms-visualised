@@ -1,0 +1,35 @@
+{
+  "name": "algorithms-visualised",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kxmatejka/algorithms-visualised.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kxmatejka/algorithms-visualised/issues"
+  },
+  "homepage": "https://github.com/kxmatejka/algorithms-visualised#readme",
+  "dependencies": {
+    "next": "^9.4.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "styled-components": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.14",
+    "@types/react": "^16.9.41",
+    "@types/react-dom": "^16.9.8",
+    "@types/styled-components": "^5.1.0",
+    "babel-plugin-styled-components": "^1.10.7"
+  }
+}
