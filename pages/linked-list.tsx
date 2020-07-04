@@ -1,3 +1,3 @@
-import {LinkedList} from 'src/pages'
+import {LinkedListPage} from 'src/pages'
 
-export default LinkedList
+export default LinkedListPage

@@ -2,40 +2,11 @@ import React, {useState} from 'react'
 import styled from 'styled-components'
 import {Stage, Layer, Rect, Circle, Text, Group, Line} from 'react-konva'
 import {useLinkedListNodesFactory} from './use-linked-list-nodes'
+import {TimeComplexityTable} from 'src/components'
 
 const FormRow = styled.div`
   margin: 10px 0;
 `
-
-interface TimeComplexityTableProps {
-  access: string,
-  search: string,
-  insertion: string,
-  deletion: string
-}
-
-function TimeComplexityTable (props: TimeComplexityTableProps) {
-  return (
-    <table>
-      <thead>
-        <tr>
-          <td>Access</td>
-          <td>Search</td>
-          <td>Insertion</td>
-          <td>Deletion</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{props.access}</td>
-          <td>{props.search}</td>
-          <td>{props.insertion}</td>
-          <td>{props.deletion}</td>
-        </tr>
-      </tbody>
-    </table>
-  )
-}
 
 const LinkedNode = ({value, x, y, isLast}: {value: string, x: number, y: number, isLast: boolean}) => {
   const radius = 35
@@ -54,7 +25,7 @@ const LinkedNode = ({value, x, y, isLast}: {value: string, x: number, y: number,
 
 const useLinkedListNodes = useLinkedListNodesFactory<string>()
 
-export function LinkedList() {
+export function LinkedListPage() {
   const [value, setValue] = useState('')
   const {nodes, append, prepend} = useLinkedListNodes()
 
