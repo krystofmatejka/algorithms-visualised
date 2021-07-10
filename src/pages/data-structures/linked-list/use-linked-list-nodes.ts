@@ -31,9 +31,13 @@ export function useLinkedListNodesFactory <T>() {
     const nodesWithMeta = []
 
     nodes.forEach((node, index) => {
+      const rowNumber = Math.floor(index / 7)
+      const isOdd = !!(rowNumber % 2)
+      const x = (index % 7) * 120
+
       const point = {
-        x: ((index % 7) * 120) + 15,
-        y: Math.floor(index / 7) * 100 + 15
+        x: (isOdd) ? 735 - x : x + 15,
+        y: rowNumber * 100 + 15
       }
 
       nodesWithMeta.push({
