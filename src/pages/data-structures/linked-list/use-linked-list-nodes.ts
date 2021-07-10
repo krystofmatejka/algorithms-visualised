@@ -1,13 +1,11 @@
-import React, {useReducer} from 'react'
+import {useReducer, useEffect, useRef} from 'react'
 import {LinkedListNode, LinkedListStructure} from './linked-list'
-
-type Point = {
-  x: number
-  y: number
-}
+import type {Point} from '../../../types'
 
 type Props = {
-  nodesPerRow: number
+  nodeRadius: number
+  canvasWidth: number
+  canvasHeight: number
 }
 
 type NodeWithMeta<T> = {
@@ -24,65 +22,70 @@ type Action<T> =
   | {type: 'APPEND', payload: T, props: Props}
   | {type: 'PREPEND', payload: T, props: Props}
 
-export function useLinkedListNodesFactory <T>() {
-  const linkedList = new LinkedListStructure<T>()
+const addPointsToNodes = <T>(nodes: LinkedListNode<T>[], props: Props): NodeWithMeta<T>[] => {
+  const diameter = props.nodeRadius * 2
+  const oneSideMargin = Math.round(props.nodeRadius / 2)
+  const nodesPerRow = Math.round(props.canvasWidth / (diameter * 2))
+  const nodesWithMeta = []
 
-  const addPointsToNodes = <T>(nodes: LinkedListNode<T>[]): NodeWithMeta<T>[] => {
-    const nodesWithMeta = []
+  nodes.forEach((node, index) => {
+    const rowNumber = Math.floor(index / nodesPerRow)
+    const isOdd = !!(rowNumber % 2)
+    const x = (index % nodesPerRow) * diameter * 2
 
-    nodes.forEach((node, index) => {
-      const rowNumber = Math.floor(index / 7)
-      const isOdd = !!(rowNumber % 2)
-      const x = (index % 7) * 120
+    const point = {
+      x: (isOdd) ? props.canvasWidth - oneSideMargin - diameter - x : x + oneSideMargin,
+      y: rowNumber * (props.nodeRadius * 3) + oneSideMargin
+    }
 
-      const point = {
-        x: (isOdd) ? 735 - x : x + 15,
-        y: rowNumber * 100 + 15
-      }
-
-      nodesWithMeta.push({
-        node,
-        point,
-        pointToNext: {}
-      })
-
-      if (index > 0) {
-        const previous = nodesWithMeta[index - 1]
-        previous.pointToNext = point
-      }
+    nodesWithMeta.push({
+      node,
+      point,
+      pointToNext: {}
     })
 
-    return nodesWithMeta
-  }
+    if (index > 0) {
+      const previous = nodesWithMeta[index - 1]
+      previous.pointToNext = point
+    }
+  })
 
-  const reducer = (state: State<T>, action: Action<T>, props: Props): State<T> => {
+  return nodesWithMeta
+}
+
+export const useLinkedListNodes = <T>(props: Props) => {
+  const linkedList = useRef<LinkedListStructure<T>>(null)
+  const [state, dispatch] = useReducer((state: State<T>, action: Action<T>) => {
     switch (action.type) {
       case 'APPEND':
-        linkedList.append(action.payload)
+        linkedList.current.append(action.payload)
         return {
-          nodes: addPointsToNodes(linkedList.toArray())
+          nodes: addPointsToNodes(linkedList.current.toArray(), action.props)
         }
       case 'PREPEND':
-        linkedList.prepend(action.payload)
+        linkedList.current.prepend(action.payload)
         return {
-          nodes: linkedList.toArray()
+          nodes: addPointsToNodes(linkedList.current.toArray(), action.props)
         }
     }
-  }
+  }, {
+    nodes: []
+  })
 
-  return function useLinkedListNodes (props: Props) {
-    const [state, dispatch] = useReducer<React.Reducer<State<T>, Action<T>>>(reducer, {
-      nodes: []
-    })
+  const append = (value: T) => dispatch({type: 'APPEND', payload: value, props})
+  const prepend = (value: T) => dispatch({type: 'PREPEND', payload: value, props})
 
-    const append = (value: T) => dispatch({type: 'APPEND', payload: value, props})
-    //const prepend = (value: T) => dispatch({type: 'PREPEND', payload: value, props})
-    const prepend = (value: T) => null
+  useEffect(() => {
+    linkedList.current = new LinkedListStructure<T>()
 
-    return {
-      nodes: state.nodes,
-      append,
-      prepend
+    return function useLinkedListNodesCleanup () {
+      linkedList.current = null
     }
+  }, [])
+
+  return {
+    nodes: state.nodes,
+    append,
+    prepend
   }
 }

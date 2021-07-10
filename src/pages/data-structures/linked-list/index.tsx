@@ -1,33 +1,40 @@
-import React, {useState} from 'react'
+import React, {FC, useState} from 'react'
 import styled from 'styled-components'
 import {Stage, Layer, Rect, Circle, Text, Group, Line} from 'react-konva'
-import {useLinkedListNodesFactory} from './use-linked-list-nodes'
+import {useLinkedListNodes} from './use-linked-list-nodes'
 import {TimeComplexityTable} from 'src/components'
+import type {Point} from '../../../types'
 
 const FormRow = styled.div`
   margin: 10px 0;
 `
 
-const LinkedNode = ({value, x, y, x1, y1}: {value: string, x: number, y: number, x1: number, y1: number,}) => {
-  const radius = 35
+const NODE_RADIUS = 35
+const CANVAS_WIDTH = 820
+const CANVAS_HEIGHT = 420
+
+const LinkedNode: FC<{value: string, point: Point, pointToNext: Point}> = ({value, point, pointToNext}) => {
+
   return (
     <Group>
-      {x1 && y1 && <Line points={[x + 35, y + 35, x1 + 35, y1 + 35]} stroke={'#000'}/>}
-      <Circle radius={35} fill={'#4da0d7'} x={x+radius} y={y+radius} />
+      {pointToNext && <Line points={[point.x + NODE_RADIUS, point.y + NODE_RADIUS, pointToNext.x + NODE_RADIUS, pointToNext.y + NODE_RADIUS]} stroke={'#000'}/>}
+      <Circle radius={NODE_RADIUS} fill={'#4da0d7'} x={point.x + NODE_RADIUS} y={point.y + NODE_RADIUS} />
       <Text
         text={value}
-        x={x} y={y} width={70} height={70} fontSize={20}
+        x={point.x} y={point.y} width={NODE_RADIUS * 2} height={NODE_RADIUS * 2} fontSize={20}
         align={'center'} verticalAlign={'middle'} fontFamily={'mono'}
       />
     </Group>
   )
 }
 
-const useLinkedListNodes = useLinkedListNodesFactory<string>()
-
 export function LinkedListPage() {
   const [value, setValue] = useState('')
-  const {nodes, append, prepend} = useLinkedListNodes({nodesPerRow: 7})
+  const {nodes, append, prepend} = useLinkedListNodes<string>({
+    nodeRadius: NODE_RADIUS,
+    canvasWidth: CANVAS_WIDTH,
+    canvasHeight: CANVAS_HEIGHT,
+  })
 
   return (
     <>
@@ -62,14 +69,14 @@ export function LinkedListPage() {
       </div>
       <h2>Scheme</h2>
       <div>
-        <Stage width={820} height={400}>
+        <Stage width={CANVAS_WIDTH} height={CANVAS_HEIGHT}>
           <Layer>
-            <Rect width={820} height={400} stroke={'#000'}/>
+            <Rect width={CANVAS_WIDTH} height={CANVAS_HEIGHT} stroke={'#000'}/>
           </Layer>
           <Layer>
             {
               nodes.map(({node, point, pointToNext}) =>
-                  <LinkedNode key={node.value} value={node.value} x={point.x} y={point.y} x1={pointToNext.x} y1={pointToNext.y} />
+                  <LinkedNode key={node.value} value={node.value} point={point} pointToNext={pointToNext} />
                 )
             }
           </Layer>
