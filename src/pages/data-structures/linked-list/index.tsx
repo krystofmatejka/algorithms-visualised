@@ -8,17 +8,17 @@ const FormRow = styled.div`
   margin: 10px 0;
 `
 
-const LinkedNode = ({value, x, y, isLast}: {value: string, x: number, y: number, isLast: boolean}) => {
+const LinkedNode = ({value, x, y, x1, y1}: {value: string, x: number, y: number, x1: number, y1: number,}) => {
   const radius = 35
   return (
     <Group>
+      {x1 && y1 && <Line points={[x + 35, y + 35, x1 + 35, y1 + 35]} stroke={'#000'}/>}
       <Circle radius={35} fill={'#4da0d7'} x={x+radius} y={y+radius} />
       <Text
         text={value}
         x={x} y={y} width={70} height={70} fontSize={20}
         align={'center'} verticalAlign={'middle'} fontFamily={'mono'}
       />
-      {!isLast && <Line points={[x+70, 50, x+70+120, 50]} stroke={'#000'}/>}
     </Group>
   )
 }
@@ -27,7 +27,7 @@ const useLinkedListNodes = useLinkedListNodesFactory<string>()
 
 export function LinkedListPage() {
   const [value, setValue] = useState('')
-  const {nodes, append, prepend} = useLinkedListNodes()
+  const {nodes, append, prepend} = useLinkedListNodes({nodesPerRow: 7})
 
   return (
     <>
@@ -62,14 +62,14 @@ export function LinkedListPage() {
       </div>
       <h2>Scheme</h2>
       <div>
-        <Stage width={800} height={100}>
+        <Stage width={820} height={400}>
           <Layer>
-            <Rect width={800} height={100} stroke={'#000'}/>
+            <Rect width={820} height={400} stroke={'#000'}/>
           </Layer>
           <Layer>
             {
-              nodes.map((node, i) =>
-                  <LinkedNode key={node.value} value={node.value} x={15 + (i * 120)} y={15} isLast={i+1 === nodes.length} />
+              nodes.map(({node, point, pointToNext}) =>
+                  <LinkedNode key={node.value} value={node.value} x={point.x} y={point.y} x1={pointToNext.x} y1={pointToNext.y} />
                 )
             }
           </Layer>
