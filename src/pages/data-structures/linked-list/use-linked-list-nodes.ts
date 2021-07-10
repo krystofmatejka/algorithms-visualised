@@ -16,12 +16,14 @@ export function useLinkedListNodesFactory <T>() {
     switch (action.type) {
       case 'APPEND':
         linkedList.append(action.payload)
-        state.nodes = linkedList.toArray()
-        return state
+        return {
+          nodes: linkedList.toArray()
+        }
       case 'PREPEND':
         linkedList.prepend(action.payload)
-        state.nodes = linkedList.toArray()
-        return state
+        return {
+          nodes: linkedList.toArray()
+        }
     }
   }
 

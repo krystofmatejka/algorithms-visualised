@@ -15,12 +15,13 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": "."
   },
   "exclude": [
-    "node_modules", ".next"
+    "node_modules",
+    ".next"
   ],
   "include": [
     "next-env.d.ts",
