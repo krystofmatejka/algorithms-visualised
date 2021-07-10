@@ -1,5 +1,5 @@
 import {useReducer, useEffect, useRef} from 'react'
-import {LinkedListNode, LinkedListStructure} from './linked-list'
+import {LinkedListNode, LinkedListStructure} from '../../../data-structures'
 import type {Point} from '../../../types'
 
 type Props = {

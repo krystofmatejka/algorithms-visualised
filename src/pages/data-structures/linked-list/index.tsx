@@ -5,16 +5,15 @@ import {useLinkedListNodes} from './use-linked-list-nodes'
 import {TimeComplexityTable} from 'src/components'
 import type {Point} from '../../../types'
 
-const FormRow = styled.div`
-  margin: 10px 0;
-`
-
 const NODE_RADIUS = 35
 const CANVAS_WIDTH = 820
 const CANVAS_HEIGHT = 420
 
-const LinkedNode: FC<{value: string, point: Point, pointToNext: Point}> = ({value, point, pointToNext}) => {
+const FormRow = styled.div`
+  margin: 10px 0;
+`
 
+const LinkedNode: FC<{value: string, point: Point, pointToNext: Point}> = ({value, point, pointToNext}) => {
   return (
     <Group>
       {pointToNext && <Line points={[point.x + NODE_RADIUS, point.y + NODE_RADIUS, pointToNext.x + NODE_RADIUS, pointToNext.y + NODE_RADIUS]} stroke={'#000'}/>}
@@ -39,7 +38,7 @@ export function LinkedListPage() {
   return (
     <>
       <h1>Linked list</h1>
-      <h2>Complexities</h2>
+      <h2>Complexity</h2>
       <TimeComplexityTable access='O(n)' search='O(n)' insertion='O(1)' deletion='O(1)'/>
       <h2>Description</h2>
       <p>A linked list is a collection of entities which are not stored in sequential order. Instead, each entity has a
@@ -50,20 +49,22 @@ export function LinkedListPage() {
           <FormRow>
             <label>
               Value:&nbsp;
-              <input value={value} onChange={(e) => setValue(e.target.value)}/>
+              <input value={value} onChange={(e) => {
+                if (e.target.value.length <= 3) {
+                  setValue(e.target.value)
+                }
+              }}/>
             </label>
           </FormRow>
           <FormRow>
             <button onClick={(e) => {
               prepend(value)
               setValue('')
-            }}>prepend</button>
-          </FormRow>
-          <FormRow>
+            }} disabled={!value}>prepend</button>
             <button onClick={(e) => {
               append(value)
               setValue('')
-            }}>append</button>
+            }} disabled={!value}>append</button>
           </FormRow>
         </form>
       </div>
@@ -82,8 +83,11 @@ export function LinkedListPage() {
           </Layer>
         </Stage>
       </div>
-      <h2>Extensions</h2>
       <h2>Resources</h2>
+      <ul>
+        <li><a href='https://en.wikipedia.org/wiki/Linked_list' target='_blank'>Linked list - Wikipedia</a></li>
+        <li><a href='https://www.geeksforgeeks.org/data-structures/linked-list/' target='_blank'>Linked list data structure - GeeksForGeeks</a></li>
+      </ul>
     </>
   )
 }
