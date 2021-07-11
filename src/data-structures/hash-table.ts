@@ -1,4 +1,4 @@
-function sumCharCodes (text: string) {
+const sumCharCodes = (text: string) => {
   let sum = 0
   for (let i = 0, length = text.length; i < length; i++) {
     sum += text.charCodeAt(i)
@@ -6,9 +6,7 @@ function sumCharCodes (text: string) {
   return sum
 }
 
-function hash (key: string, allocatedSize: number) {
-  return sumCharCodes(key) % allocatedSize
-}
+const hash = (key: string, allocatedSize: number) => sumCharCodes(key) % allocatedSize
 
 export class HashTable<T> {
   private readonly SIZE = 100

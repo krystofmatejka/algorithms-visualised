@@ -10,7 +10,7 @@ export class LinkedListNode<T> {
   toString = () => String(this.value)
 }
 
-export class LinkedListStructure<T> {
+export class LinkedList<T> {
   public head: LinkedListNode<T>
   public tail: LinkedListNode<T>
 
@@ -56,7 +56,7 @@ export class LinkedListStructure<T> {
     let node = this.head
 
     while (node) {
-      result.push(node)
+      result.push(node.value)
       node = node.next
     }
 

@@ -1,4 +1,4 @@
-import {HashTable} from '../hash-table'
+import {HashTable} from './hash-table'
 
 describe('Hash table', () => {
   it('should set and retrieve multiple values', () => {

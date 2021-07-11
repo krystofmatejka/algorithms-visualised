@@ -8,11 +8,6 @@ const Home = () => {
       <nav>
         <ul>
           <li>
-            <Link href={'hash-table'}>
-              <a>Hash Table</a>
-            </Link>
-          </li>
-          <li>
             <Link href={'linked-list'}>
               <a>Linked List</a>
             </Link>

@@ -11,7 +11,7 @@ class Node<A, B> {
 export class BinarySearchTree<A, B> {
   public root: Node<A, B> | null = null
 
-  insert (key: A, data: B) {
+  insert = (key: A, data: B) => {
     const node = new Node(key, data)
 
     if (!this.root) {
@@ -21,7 +21,7 @@ export class BinarySearchTree<A, B> {
     }
   }
 
-  private insertNode(node: Node<A, B>, newNode: Node<A, B>) {
+  private insertNode = (node: Node<A, B>, newNode: Node<A, B>) => {
     if (newNode.key < node.key) {
       if (!node.left) {
         node.left = newNode
@@ -37,11 +37,11 @@ export class BinarySearchTree<A, B> {
     }
   }
 
-  find (key: A) {
+  find = (key: A) => {
     return this.findNode(key, this.root)
   }
 
-  private findNode (key: A, node: Node<A, B> | null) {
+  private findNode = (key: A, node: Node<A, B> | null) => {
     if (!node) {
       return null
     }

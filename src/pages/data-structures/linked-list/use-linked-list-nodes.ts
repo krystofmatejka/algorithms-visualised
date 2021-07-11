@@ -1,5 +1,5 @@
 import {useReducer, useEffect, useRef} from 'react'
-import {LinkedListNode, LinkedListStructure} from '../../../data-structures'
+import {LinkedList} from '../../../data-structures'
 import type {Point} from '../../../types'
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 }
 
 type NodeWithMeta<T> = {
-  node: LinkedListNode<T>
+  node: T
   point: Point
   pointToNext: Point
 }
@@ -22,7 +22,7 @@ type Action<T> =
   | {type: 'APPEND', payload: T, props: Props}
   | {type: 'PREPEND', payload: T, props: Props}
 
-const addPointsToNodes = <T>(nodes: LinkedListNode<T>[], props: Props): NodeWithMeta<T>[] => {
+const addPointsToNodes = <T>(nodes: T[], props: Props): NodeWithMeta<T>[] => {
   const diameter = props.nodeRadius * 2
   const oneSideMargin = Math.round(props.nodeRadius / 2)
   const nodesPerRow = Math.round(props.canvasWidth / (diameter * 2))
@@ -54,7 +54,7 @@ const addPointsToNodes = <T>(nodes: LinkedListNode<T>[], props: Props): NodeWith
 }
 
 export const useLinkedListNodes = <T>(props: Props) => {
-  const linkedList = useRef<LinkedListStructure<T>>(null)
+  const linkedList = useRef<LinkedList<T>>(null)
   const [state, dispatch] = useReducer((state: State<T>, action: Action<T>) => {
     switch (action.type) {
       case 'APPEND':
@@ -76,7 +76,7 @@ export const useLinkedListNodes = <T>(props: Props) => {
   const prepend = (value: T) => dispatch({type: 'PREPEND', payload: value, props})
 
   useEffect(() => {
-    linkedList.current = new LinkedListStructure<T>()
+    linkedList.current = new LinkedList<T>()
 
     return function useLinkedListNodesCleanup () {
       linkedList.current = null

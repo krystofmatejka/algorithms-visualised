@@ -77,7 +77,7 @@ export function LinkedListPage() {
           <Layer>
             {
               nodes.map(({node, point, pointToNext}) =>
-                  <LinkedNode key={node.value} value={node.value} point={point} pointToNext={pointToNext} />
+                  <LinkedNode key={node} value={node} point={point} pointToNext={pointToNext} />
                 )
             }
           </Layer>
