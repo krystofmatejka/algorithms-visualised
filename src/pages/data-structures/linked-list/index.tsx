@@ -43,7 +43,7 @@ export function LinkedListPage() {
       <h2>Description</h2>
       <p>A linked list is a collection of entities which are not stored in sequential order. Instead, each entity has a
         pointer to the next entity.</p>
-      <h2>Control</h2>
+      <h2>Add value</h2>
       <div>
         <form onSubmit={(e) => e.preventDefault()}>
           <FormRow>

@@ -1,4 +1,4 @@
-import {squaresOfSortedArray} from '../squares-of-sorted-array'
+import {squaresOfSortedArray} from './squares-of-sorted-array'
 
 describe('Squares of a Sorted Array', () => {
   it('should calculate a squares of sorted array', () => {

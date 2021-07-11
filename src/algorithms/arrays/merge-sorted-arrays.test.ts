@@ -1,4 +1,4 @@
-import {mergeSortedArrays} from '../merge-sorted-arrays'
+import {mergeSortedArrays} from './merge-sorted-arrays'
 
 describe('Merge Sorted Arrays', () => {
   it('should merge consecutive arrays', () => {

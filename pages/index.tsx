@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 
-export default () => {
+const Home = () => {
   return (
     <>
       <h1>Data structures & Algorithms</h1>
@@ -22,3 +22,5 @@ export default () => {
     </>
   )
 }
+
+export default Home

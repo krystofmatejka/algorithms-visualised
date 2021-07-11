@@ -1,4 +1,4 @@
-export function mergeSortedArrays (left: number[], right: number[]) {
+export const mergeSortedArrays = (left: number[], right: number[]) => {
   const result: number[] = []
   let li = 0
   let ri = 0

@@ -1,4 +1,4 @@
-export function squaresOfSortedArray (nums: number[]) {
+export const squaresOfSortedArray = (nums: number[]) => {
   let left = 0
   let right = nums.length - 1
   let i = nums.length - 1
